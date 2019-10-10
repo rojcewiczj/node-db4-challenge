@@ -16,9 +16,12 @@ function getInstructions(id) {
     .first();
 }
 
-function getShoppingList(recipeId) {
-  return db('ingrediants')
-    .join('ingrediants.name', 'recipes.name', 'recipes-ingrediants.quantity')
-    .where({ recipe_id: recipeId });
-}
+
+    function getShoppingList(recipeId) {
+        return  db('recipes_ingrediants')
+        // .join('recipes_ingrediants.quantity', 'ingrediants.name', 'recipes_ingrediants.ingrediants_id')
+        .where({ recipe_id : recipeId })
+        // .select('ingredients.name',)
+       
+    }
 

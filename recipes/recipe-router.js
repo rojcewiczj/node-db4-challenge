@@ -5,7 +5,7 @@ const Recipes = require('./recipe-model.js');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  Recipes.getRecipe()
+  Recipes.getRecipes()
   .then(recipes => {
     res.json(recipes);
   })
@@ -35,14 +35,14 @@ router.get('/:id/shoppingList', (req, res) => {
 
   Recipes.getShoppingList(id)
   .then(steps => {
-    if (steps.length) {
+    if (steps) {
       res.json(steps);
     } else {
       res.status(404).json({ message: 'Could not find ingrediants for given recipe' })
     }
   })
   .catch(err => {
-    res.status(500).json({ message: 'Failed to get steps' });
+    res.status(500).json({ message: 'Failed to get ingrediants' });
   });
 });
 
