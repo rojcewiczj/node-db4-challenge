@@ -8,43 +8,43 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
-server.get('/api/species', (req, res) => {
-  // get all species from the database
-  db('species')
-    .then(species => {
-      res.status(200).json(species);
+server.get('/api/recipes', (req, res) => {
+  // get all recipes from the database
+  db('recipes')
+    .then(recipes => {
+      res.status(200).json(recipes);
     })
     .catch(error => {
       res.status(500).json(error);
     });
 });
 
-server.get('/api/animals', (req, res) => {
-  // get all animals from the database
-  // include species name
-  db('animals as a')
-    .leftJoin('species as s', 's.id', 'a.species_id')
-    .select('a.id', 'a.animal_name', 's.species_name')
-    .then(animals => {
-      res.status(200).json(animals);
+server.get('/api/ingrediants', (req, res) => {
+  // get all ingrediants from the database
+  // include ingrediants name
+  db('recipes')
+    .leftJoin('recipes', 'recipes.id', 'ingrediants.recipe_id')
+    // .select('ingrediants.id', 'ingrediants.ingrediantes_name', 's.species_name')
+    .then(ingrediants => {
+      res.status(200).json(ingrediants);
     })
     .catch(error => {
       res.status(500).json(error);
     });
 });
 
-// create animal
-server.post('/api/animals', (req, res) => {
-  db('animals')
+// create ingrediant
+server.post('/api/ingrediants', (req, res) => {
+  db('ingrediants')
     .insert(req.body, 'id')
     .then(ids => {
       const id = ids[0];
 
-      db('animals')
+      db('ingrediants')
         .where({ id })
         .first()
-        .then(animal => {
-          res.status(201).json(animal);
+        .then(ingrediant => {
+          res.status(201).json(ingrediant);
         });
     })
     .catch(error => {
@@ -52,9 +52,9 @@ server.post('/api/animals', (req, res) => {
     });
 });
 
-// remove species
-server.delete('/api/species/:id', (req, res) => {
-  db('species')
+// remove recipe
+server.delete('/api/recipes/:id', (req, res) => {
+  db('recipes')
     .where({ id: req.params.id })
     .del()
     .then(count => {
