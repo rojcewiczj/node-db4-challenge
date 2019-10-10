@@ -10,7 +10,7 @@ module.exports = {
   },
 
   staging: {
-    client: 'postgresql',
+    client: 'sqlite3',
     connection: {
       database: 'my_db',
       user:     'username',
@@ -33,6 +33,10 @@ module.exports = {
       password: 'password'
     },
     pool: {
+      afterCreate: (conn, done) => {
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      },
       min: 2,
       max: 10
     },

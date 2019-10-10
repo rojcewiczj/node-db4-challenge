@@ -11,31 +11,31 @@ exports.up = function(knex) {
 
       tbl.string('name', 255).notNullable();
     })
-    .createTable('user_favorites', tbl => {
+    .createTable('recipes_ingrediants', tbl => {
       tbl.increments();
 
-      tbl.text('notes');
+     
 
       // we need FK that references the PK on users
       tbl
-        .integer('user_id')
+        .integer('recipe_id')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('users')
+        .inTable('recipes')
         .onUpdate('CASCADE')
         .onDelete('RESTRICT');
 
       tbl
-        .integer('poi_id')
+        .integer('ingrediants_id')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('pois')
+        .inTable('ingrediants')
         .onUpdate('CASCADE')
         .onDelete('RESTRICT');
 
-      tbl.unique(['user_id', 'poi_id']);
+      tbl.unique(['recipe_id', 'ingrediants_id']);
     });
 };
 
