@@ -13,7 +13,7 @@ function getRecipes() {
 function getInstructions(id) {
   return db('recipes')
     .where({ id })
-    .first();
+    .select('recipes.name', 'recipes.instructions')
 }
 
 
